@@ -1,5 +1,5 @@
 # Team Members
-** Neidy Malaga **
+**Neidy Malaga**
 * Email: neidymlg@csu.fullerton.edu
 * Section Number: 02
 
