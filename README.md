@@ -13,5 +13,5 @@
 
 **Jaytee Okonkwo**
 * Email: jokon@csu.fullerton.edu    
-* Section: 02
+* Section Number: 02
 
