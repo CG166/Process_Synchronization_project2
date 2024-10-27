@@ -7,7 +7,7 @@
 * Email: cgarcia.21@csu.fullerton.edu
 * Section Number: 06
 
-** Doung Banh **
+**Doung Banh**
 * Email:
 * Section: 06
 
