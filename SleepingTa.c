@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	sem_init(&TA_sleep, 0, 1);
 	sem_init(&NextStudent, 0, 1);
 
-	for (int i = 0; i < WR; i++) {
+	for (int i = 1; i <= WR; i++) {
 		sem_init(&WaitingRoom[i], 0, 1);
 	}	
 
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 
 	//Creating one TA thread and N Student threads.
 	for (int i = 0; i < number_of_students; i++) {
-		id[i] = i;
+		id[i] = i+1;
 		pthread_create(&Students[i], NULL, Student_Activity, &id[i]);
 	}
 
@@ -84,12 +84,21 @@ int main(int argc, char* argv[])
 
 void *TA_Activity()
 {
-	printf("TA ran\n");
+	do{//if chairs are empty, break the loop.
+		sem_wait(&TA_sleep); //TA is currently sleeping.
+		pthread_mutex_lock(&mutex);// lock		
+		printf("TA ran, this is the Current Index %d\n", CurrentIndex);
+		CurrentIndex--;
+		pthread_mutex_unlock(&mutex);//unlock
+	} while(CurrentIndex > 0);
 	pthread_exit(NULL);
+
 }
 
 void *Student_Activity(void *threadID)
 {
+	CurrentIndex++;//Student needs help from the TA
+	sem_post(&TA_sleep); //wake up the TA.
 	int id = *((int *)threadID);
 	printf("ID %d \n", id);
 	pthread_exit(NULL);
