@@ -8,7 +8,7 @@
 * Section Number: 06
 
 **Doung Banh**
-* Email:
+* Email: Duong2021@csu.fullerton.edu
 * Section: 06
 
 **Jaytee Okonkwo**
