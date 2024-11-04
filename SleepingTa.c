@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
 	srand(time(NULL));
 	int number_of_students; //a variable taken from the user to create
 				//student threads. Default is 5 student threads.
-	srand(time(NULL));
 
 	//Initializing Mutex Lock and Semaphores.
 	pthread_mutex_init(&mutex, NULL);
@@ -79,12 +78,12 @@ void *TA_Activity()
 			ChairsCount--;
 			pthread_mutex_unlock(&mutex);
 			printf("TA is currently helping student.\n");
-			int sleep_time = rand() % 15 + 5;
-			sleep(sleep_time); //Student is being helped by TA
-			printf("TA is sleeping.\n");
+			int sleep_time = rand() % 6 + 5;
+			sleep(sleep_time);//Student is being helped by TA
 			sem_post(&NextStudent);
 		}
 		else{
+			printf("TA is sleeping.\n");
 			pthread_mutex_unlock(&mutex);//unlock
 		}
 	}
@@ -119,9 +118,9 @@ void *Student_Activity(void *threadID)
 		if (pthread_mutex_trylock(&mutex) == 0){
 			printf("Student %d wakes up TA and heads into office.\n", id);
 			sem_post(&TA_sleep);
+			pthread_mutex_unlock(&mutex);
 			sem_wait(&NextStudent);
 			printf("TA is done helping student %d\n", id);
-			pthread_mutex_unlock(&mutex);
 			break;
 		}
 		else{
