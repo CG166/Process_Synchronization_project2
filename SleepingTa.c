@@ -11,7 +11,7 @@ int ChairsCount = 0;
 int CurrentIndex = 0;
 
 sem_t TA_sleep; //A semaphore to signal and wait TA's sleep.
-sem_t WaitingRoom[3]; //An array of 3 semaphores to signal and wait chair to wait for the TA.
+sem_t WaitingRoom[WR]; //An array of 3 semaphores to signal and wait chair to wait for the TA.
 sem_t NextStudent; //A semaphore to signal and wait for TA's next student.
 
 //To lock and unlock variable ChairsCount to increment and decrement its value.
