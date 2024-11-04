@@ -30,12 +30,6 @@ int main(int argc, char* argv[])
 	sem_init(&TA_sleep, 0, 0);
 	sem_init(&NextStudent, 0, 0);
 
-	for (int i = 1; i <= WR; i++) {
-		sem_init(&WaitingRoom[i], 0, 1);
-	}	
-
-
-
 	if(argc<2)
 	{	
 		printf("Number of Students not specified. Using default (5) students.\n");
