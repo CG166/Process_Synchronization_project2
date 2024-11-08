@@ -76,12 +76,14 @@ void *TA_Activity()
 {
 	while(1){//if chairs are empty, break the loop.
 		printf("TA is sleeping.\n");
+		printf("TA is sleeping.\n");
 		sem_wait(&TA_sleep); //TA is currently sleeping.
 		if(ChairsCount > 0){//TA gets next student on chair.
 			ChairsCount--;
 			printf("TA is currently helping student.\n");
 			int sleep_time = rand() % 6 + 5;
 			sleep(sleep_time);//Student is being helped by TA
+			printf("TA is done helping student.\n");
 			printf("TA is done helping student.\n");
 			sem_post(&NextStudent);
 		}
@@ -94,6 +96,7 @@ void *Student_Activity(void *threadID)
 {
 	int id = *((int *)threadID);
 
+	//For sitting in Waiting Room 
 	//For sitting in Waiting Room 
 	while(1){
 		pthread_mutex_lock(&chair_mutex);// lock
