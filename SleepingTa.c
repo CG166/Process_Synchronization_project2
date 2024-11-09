@@ -83,7 +83,6 @@ void *TA_Activity()
 			int sleep_time = rand() % 6 + 5;
 			sleep(sleep_time);//Student is being helped by TA
 			printf("TA is done helping student.\n");
-			printf("TA is done helping student.\n");
 			sem_post(&NextStudent);
 		}
 	}
