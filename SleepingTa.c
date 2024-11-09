@@ -95,7 +95,6 @@ void *Student_Activity(void *threadID)
 	int id = *((int *)threadID);
 
 	//For sitting in Waiting Room 
-	//For sitting in Waiting Room 
 	while(1){
 		pthread_mutex_lock(&chair_mutex);// lock
 		if(ChairsCount < WR) {
