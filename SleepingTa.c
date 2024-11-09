@@ -76,7 +76,6 @@ void *TA_Activity()
 {
 	while(1){//if chairs are empty, break the loop.
 		printf("TA is sleeping.\n");
-		printf("TA is sleeping.\n");
 		sem_wait(&TA_sleep); //TA is currently sleeping.
 		if(ChairsCount > 0){//TA gets next student on chair.
 			ChairsCount--;
