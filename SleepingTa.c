@@ -7,14 +7,13 @@
 #define WR 3
 pthread_t *Students; //N threads running as Students.
 pthread_t TA; //Separate Thread for TA.
-int ChairsCount = 0;
+
 
 sem_t TA_sleep; //A semaphore to signal and wait TA's sleep.
 sem_t NextStudent; //A semaphore to signal and wait for TA's next student.
-
-//To lock and unlock variable ChairsCount to increment and decrement its value.
-pthread_mutex_t chair_mutex; 
-pthread_mutex_t ta_mutex;
+sem_t TA_available;
+sem_t chairs_sem;
+pthread_mutex_t mutex; 
 
 void *TA_Activity();
 void *Student_Activity(void *threadID);
@@ -26,10 +25,12 @@ int main(int argc, char* argv[])
 				//student threads. Default is 5 student threads.
 
 	//Initializing Mutex Lock and Semaphores.
-	pthread_mutex_init(&chair_mutex, NULL);
-	pthread_mutex_init(&ta_mutex, NULL);
+	pthread_mutex_init(&mutex, NULL);
+	
 	sem_init(&TA_sleep, 0, 0);
+	sem_init(&TA_available, 0, 0);
 	sem_init(&NextStudent, 0, 0);
+	sem_init(&chairs_sem, 0, WR);
 
 	if(argc<2)
 	{	
@@ -63,10 +64,13 @@ int main(int argc, char* argv[])
 	pthread_cancel(TA);
 
 	//Destroy semaphores and mutex
-	pthread_mutex_destroy(&chair_mutex);
-	pthread_mutex_destroy(&ta_mutex);
+	pthread_mutex_destroy(&mutex);
+	
 	sem_destroy(&TA_sleep);
-	sem_destroy(&NextStudent);
+	sem_destroy(&NextStudent);		
+	sem_destroy(&TA_available);
+	sem_destroy(&chairs_sem);
+
 
 	free(Students); //Free allocated memory
 	return 0;
@@ -77,17 +81,12 @@ void *TA_Activity()
 	while(1){//if chairs are empty, break the loop.
 		printf("TA is sleeping.\n");
 		sem_wait(&TA_sleep); //TA is currently sleeping.
-		if(ChairsCount > 0){//TA gets next student on chair.
-			ChairsCount--;
-			printf("TA is currently helping student.\n");
-			int sleep_time = rand() % 6 + 5;
-			sleep(sleep_time);//Student is being helped by TA
-			printf("TA is done helping student.\n");
-			sem_post(&NextStudent);
-		}
+		sem_post(&TA_available);
+		int sleep_time = rand() % 6 + 5;
+		sleep(sleep_time);//Student is being helped by TA
+		sem_post(&NextStudent);	
+		printf("TA is done helping student. Student will now leave and not return.\n");
 	}
-	pthread_exit(NULL);
-
 }
 
 void *Student_Activity(void *threadID)
@@ -95,38 +94,29 @@ void *Student_Activity(void *threadID)
 	int id = *((int *)threadID);
 
 	//For sitting in Waiting Room 
-	while(1){
-		pthread_mutex_lock(&chair_mutex);// lock
-		if(ChairsCount < WR) {
-			ChairsCount++; //takes the chair
-			printf("Student %d takes a chair.\n", id);
-			pthread_mutex_unlock(&chair_mutex);
-			break;
-		}
-		else{
-			printf("Student %d couldn't find a seat and has left. Student will return later.\n", id);
-			pthread_mutex_unlock(&chair_mutex);
-			sleep(10); //student couldn't find chair, leaves and comes back
-		}
+	pthread_mutex_lock(&mutex);
+	if(sem_trywait(&chairs_sem) == 0) {
+		printf("Student %d takes a chair.\n", id);
+	}
+	else{
+		pthread_mutex_unlock(&mutex);
+		printf("Student %d couldn't find a seat and has left. Student will return later.\n", id);
+		
+		sem_wait(&chairs_sem);
+		
+		pthread_mutex_lock(&mutex);
+		printf("Student %d takes a chair\n", id);	
 	}
 
 	//For getting help from TA
-	while(1){
-		int sleep_time = rand() % 6 + 5;
-		printf("Student %d is waiting in chair for %d min(s).\n", id, sleep_time);
-		sleep(sleep_time);
-		if (pthread_mutex_trylock(&ta_mutex) == 0){
-			printf("Student %d wakes up TA and heads into office.\n", id);
-			sem_post(&TA_sleep);
-			sem_wait(&NextStudent);
-			pthread_mutex_unlock(&ta_mutex);
-			printf("Student %d has gotten help and will now leave.\n", id);
-			break;
-		}
-		else{
-			printf("Student %d tried to wake up TA, but TA was helping another student.\n", id);
-		}
-	}
-
+	printf("Student %d is waiting in chair.\n", id);
+	sem_post(&TA_sleep);
+	pthread_mutex_unlock(&mutex);
+	
+	sem_wait(&TA_available);
+	printf("Student %d wakes up TA and heads into office.\n", id);
+	sem_post(&chairs_sem);
+	sem_wait(&NextStudent);
+		
 	pthread_exit(NULL);
 }
