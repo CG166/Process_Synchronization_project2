@@ -57,8 +57,8 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		printf("Number of Students specified. Creating %d threads.\n", number_of_students);
 		number_of_students = atoi(argv[1]);
+		printf("Number of Students specified. Creating %d threads.\n", number_of_students);
 	}
 
 	int id[number_of_students];
