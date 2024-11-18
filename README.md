@@ -15,40 +15,36 @@
 * Email: jokon@csu.fullerton.edu    
 * Section Number: 02
 
-**Programming Language**
+# Programming Language
 * C Language
 
-**Running the Program with r.sh**
-*Step 1:
- Navigate to the GitHub Repository (or wherever the files are located)
+# Running the Program with r.sh
+**Step 1:**
+ *Navigate to the GitHub Repository (or wherever the files are located)
 
 
-*Step 2:
-Run the command "chmod +x r.sh"  
+**Step 2:**
+*Run the command "chmod +x r.sh"  
+ In order to obtain permission to run the file r.sh
+ PSA: The bash file r.sh utilizes the compiler gcc, so make sure that is installed
 
-In order to obtain permission to run the file r.sh
+**Step 3:*
+ *Run the r.sh file with the command "./r.sh"
 
-PSA: The bash file r.sh utilizes the compiler gcc, so make sure that is installed
-
-*Step 3:
-Run the r.sh file with the command "./r.sh"
-
-**Running the Program with a specified number of students**
-*Step 1:
- Navigate to the GitHub Repository (or wherever the files are located)
+# Running the Program with a specified number of students**
+**Step 1:**
+  *Navigate to the GitHub Repository (or wherever the files are located)
 
 
-*Step 2:
-Run the command "gcc -pthread -o run SleepingTa.c"  
+**Step 2:**
+ *Run the command "gcc -pthread -o run SleepingTa.c"  
+  In order to compile the SleepingTa.c file
+  PSA: We are utilizing the compiler gcc, so make sure that it is installed
 
-In order to compile the SleepingTa.c file
+**Step 3:**
+ *Run the executable file with the command "./run" (number of students you wish to specify)
 
-PSA: We are utilizing the compiler gcc, so make sure that it is installed
-
-*Step 3:
-Run the executable file with the command "./run" (number of students you wish to specify)
-
-The program should successfully execute with the specified number of students.
+ *The program should successfully execute with the specified number of students.
 
 
 
