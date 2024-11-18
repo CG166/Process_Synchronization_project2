@@ -49,4 +49,17 @@
 
 
 
+# Member Contribution: 
+
+**Neidy Malaga:**
+ * I contributed by helping create the code and fixing errors. I also contributed to making the final version of the code. In addition, I wrote the “Code Explanation/Walkthrough” section of the Design Document. 
+
+**Duong Banh:**
+ * I contributed by creating the initial code and fixing errors when necessary. I also set up a design document for the group and developed an initial draft of a flowchart showing how the code works for TA and Student activities. I revise the design documents in written format when necessary.
+
+**Cindy Garcia:**
+ * I contributed by setting up the Github repository and README.md and writing/creating the r.sh bash file program that streamlines the compilation and execution of our TA program. I also wrote the User Guide portion of the Design Document,  provided code feedback when necessary, and fixed minor errors.
+
+**Jaytee Okonkwo:**
+ * I contributed by helping create the design document flowchart and revising and editing code/errors when necessary. 
 
